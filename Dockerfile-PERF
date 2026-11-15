@@ -1,0 +1,44 @@
+ARG DEB_VERSION="trixie"
+ARG PYTHON_VERSION="3.14.7"
+
+FROM debian:${DEB_VERSION} AS base
+
+# Install dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    wget \
+    libssl-dev \
+    zlib1g-dev \
+    libbz2-dev \
+    libreadline-dev \
+    libsqlite3-dev \
+    libffi-dev \
+    liblzma-dev \
+    tk-dev \
+    uuid-dev
+
+WORKDIR /tmp
+
+# Download and extract Python source code
+RUN wget https://www.python.org/ftp/python/${PYTHON_VERSION}/Python-${PYTHON_VERSION}.tgz && \
+    tar -xvf Python-${PYTHON_VERSION}.tgz
+
+WORKDIR /tmp/Python-${PYTHON_VERSION}
+
+# Configure with optimizations
+RUN ./configure \
+    --enable-optimizations \
+    --with-lto \
+    CFLAGS="-O3 -march=native" \
+    CPPFLAGS="-O3 -march=native"
+
+# Build with multiple cores
+RUN make -j $(nproc)
+RUN make altinstall
+
+# Runtime image
+FROM debian:${DEB_VERSION}
+
+COPY --from=base /usr/local /usr/local
+
+CMD ["python3.14"]

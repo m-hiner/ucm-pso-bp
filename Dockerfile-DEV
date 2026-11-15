@@ -1,0 +1,7 @@
+ARG VARIANT=3.14.7-trixie
+
+FROM python:${VARIANT}
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    vim \
+    man

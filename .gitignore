@@ -1,0 +1,20 @@
+inputs.yaml
+
+__pycache__
+
+# output images
+*.png
+*.jpg
+*.webp
+*.tif
+*.gif
+*.avif
+*.pdf
+*.svg
+*.eps
+*.ps
+
+# common output filenames
+out*
+output*
+data*

@@ -1,0 +1,19 @@
+search_space:
+  width: 7
+  height: 7
+circle:
+  count: 10
+  radius: 1
+iterations: 5000
+swarm_size: 50
+rng_seed: 42
+inertia:
+  start: 0.9
+  end: 0.4
+cognitive_coefficient: 2.0
+social_coefficient: 2.0
+velocity_constraint_percent: 20
+weights:
+  alpha: 10
+  beta: 100
+  gamma: 100
